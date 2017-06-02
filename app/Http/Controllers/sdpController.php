@@ -114,10 +114,10 @@ class sdpController extends Controller
 
     private function findWordV($m,$f,$c){
       $v_occurrences = 0;
-      for ($i=0; $i < $f; $i++) {
+      for ($j=0; $j < $c; $j++) {
         $aux = "";
-        for ($j=0; $j < $c; $j++) {
-          $aux = $aux.$m[$j][$i];
+        for ($i=0; $i < $f; $i++) {
+          $aux = $aux.$m[$i][$j];
         }
         $v_occurrences = $v_occurrences + substr_count($aux,"OIE");
         $v_occurrences = $v_occurrences + substr_count($aux,"EIO");
