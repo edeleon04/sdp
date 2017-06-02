@@ -93,7 +93,9 @@ class sdpController extends Controller
 
       $h_occurrences = 0;
       while(!feof($myfile)) {
-        $h_occurrences = $h_occurrences + substr_count(fgets($myfile),"OIE");
+        $str = fgets($myfile);
+        $h_occurrences = $h_occurrences + substr_count($str,"OIE");
+        $h_occurrences = $h_occurrences + substr_count($str,"EIO");
       }
       fclose($myfile);
 
