@@ -91,16 +91,37 @@ class sdpController extends Controller
       $token = strtok(" ");
       $columnas = intval($token);
 
+      $m = array();
       $h_occurrences = 0;
       while(!feof($myfile)) {
         $str = fgets($myfile);
         $h_occurrences = $h_occurrences + substr_count($str,"OIE");
         $h_occurrences = $h_occurrences + substr_count($str,"EIO");
+
+        $aux = preg_replace('/\s+/', '', $str);
+        $aux = str_split($aux);
+        array_push($m, $aux);
       }
+
       fclose($myfile);
 
+      $v_occurrences = $this->findWordV($m,$filas,$columnas);
+
       return response()->json([
-          'occurrences' => $h_occurrences,
+          'occurrences' => $h_occurrences + $v_occurrences,
       ]);
+    }
+
+    private function findWordV($m,$f,$c){
+      $v_occurrences = 0;
+      for ($i=0; $i < $f; $i++) {
+        $aux = "";
+        for ($j=0; $j < $c; $j++) {
+          $aux = $aux.$m[$j][$i];
+        }
+        $v_occurrences = $v_occurrences + substr_count($aux,"OIE");
+        $v_occurrences = $v_occurrences + substr_count($aux,"EIO");
+      }
+      return $v_occurrences;
     }
 }
